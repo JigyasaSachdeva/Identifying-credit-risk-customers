@@ -1,7 +1,6 @@
-# Final Exam 
 # Jigyasa Sachdeva
-# 664791188
-# jsachd3@uic.edu
+# Data Mining- IDS 572
+#Identifying customers with a potential credit risk
 #-------------------------------------------------------------------------------
 
 #Reading file
@@ -9,9 +8,9 @@ Bank.data <- read.csv("~/Desktop/Bank.data.csv")
 View(Bank.data)
 
 
+
+
 #Data Pre-processing
-
-
 
 #To check for null values
 library(funModeling)
@@ -59,7 +58,6 @@ b_out2 <- na.omit(b_out2) #Down to 464 observations
 b3 <- b2[b2$Duration %in% b_out2, ] #Keeping only the non Null values
 rm(b2) #Removing previous dataframe
 
-
 #Final prepared dataset: b3
 
 data <- b3 #using data 
@@ -76,6 +74,8 @@ str(data$Target) #Done
 
 
 
+
+#Univariate Analysis
 
 #1
 #Checking 5 number summary for credit amount:
@@ -112,8 +112,13 @@ cor.test(data$Duration, data$Credit.amount)
 #2- If using a model which is robust to correlation (decision tree, randome forest):
 # We can use both
 #3- Normalizing the variable
-      
-      
+
+
+
+
+
+#Bivariate Analysis
+     
 #3
 #Distribution of credit amount for good and bad instances
 boxplot(data$Credit.amount, data$Target, 
@@ -122,8 +127,6 @@ boxplot(data$Credit.amount, data$Target,
               xlab= "Target",
               ylab= "Credit amount")    
       
-
-
 #4
 #Table of housing types v/s Target
 t <- table(data$Housing, data$Target, 
@@ -135,14 +138,17 @@ t
 #         own  117 199
 #         rent  50  50
 
-
-
 #5
 #The missing values have been handled during data pre-processing already
 
-
 #6
 #The outliers have also been taken care of during data pre-processing
+
+
+
+
+
+#Data Modeling
 
 
 #7
@@ -317,7 +323,6 @@ rpart.plot(rpart_mod)
 #Then: 1: Good
 
 
-
 #13
 #Important variables: (in the prder of most important to least)
 #Duration
@@ -326,7 +331,6 @@ rpart.plot(rpart_mod)
 #Credit.amount
 
 #Can be seen from the plot: from root node to below
-
 
 
 #14
@@ -360,8 +364,6 @@ print(c$byClass[1])
 #Choosing 1: as sensitivity is same for all values of gamma passed
 
  
-
-
 
 #15
 
@@ -400,8 +402,6 @@ prec <- function(predicted, actual)
 }
 prec(class, test_data$Target)
 #0.4470588
-
-
 
 
 #16
@@ -457,7 +457,6 @@ false_negative <- confusionMatrix(pred, test_data$Target, positive = '1')$table[
 false_positive <- confusionMatrix(pred, test_data$Target, positive = '1')$table[2,1]
 cost <- p1*false_negative + p2*false_positive
 #401
-
 
 #hence out of the three models, on the basis of cost: the best method is logistic regression
 
